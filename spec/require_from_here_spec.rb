@@ -24,8 +24,7 @@ describe RequireFromHere do
     it 'should raise an argument error when not called from a module' do
       expect {
         Object.new.instance_exec do RequireFromHere.install_on{} end
-      }
-      .to raise_error(ArgumentError, 'should be called for Modules only')
+      }.to raise_error(ArgumentError, 'should be called for Modules only')
     end
 
     it 'should raise an argument error when reinstalled on the same target' do
