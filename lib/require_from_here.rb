@@ -42,4 +42,15 @@ module RequireFromHere
     target.define_singleton_method :require_from_here, body
   end
 
+  def self.require_from_here &block
+    names = block.call
+    names = [names] unless names.is_a? Array
+    if names.empty? || names.any? { |t| t.instance_eval { not is_a? String } }
+      then raise ArgumentError, "path elements must be strings" 
+    end
+
+    path = extract_require_path_from block
+    make_method_body_for(path).call *names
+  end
+
 end
