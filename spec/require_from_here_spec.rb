@@ -58,4 +58,17 @@ describe RequireFromHere do
 
   end
 
+
+
+  describe '.from_here' do
+
+    it 'should require files that are not found in LOAD_PATH' do
+      RequireFromHere.from_here do
+        require *%w[ test a b c i_exist ]
+      end
+      expect(Object.const_defined?(:I_EXIST)).to eq(true)
+    end
+
+  end
+
 end
