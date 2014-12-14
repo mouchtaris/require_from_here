@@ -28,6 +28,13 @@ describe RequireFromHere do
       .to raise_error(ArgumentError, 'should be called for Modules only')
     end
 
+    it 'should raise an argument error when reinstalled on the same target' do
+      expect {
+        mod = Module.new do RequireFromHere.install_on{} end
+        mod.module_exec do RequireFromHere.install_on{} end
+      }.to raise_error(ArgumentError, /^already installed on (?<target>\S+) with base-path (?<path>.+)$/)
+    end
+
   end
 
 end
