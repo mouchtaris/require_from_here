@@ -25,8 +25,11 @@ module RequireFromHere
 
   def self.install_on &block
     raise ArgumentError, "An empty block (such as '{}') should be provided" unless block
-    path    = extract_require_path_from block
+
     target  = extract_target_from block
+    raise ArgumentError, 'should be called for Modules only' unless target.is_a? Module
+
+    path    = extract_require_path_from block
     body    = make_method_body_for path
     target.define_singleton_method :require_from_here, body
   end

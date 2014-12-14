@@ -18,4 +18,11 @@ describe RequireFromHere do
       Module.new do RequireFromHere.install_on end
     }.to raise_error(ArgumentError, "An empty block (such as '{}') should be provided")
   end
+
+  it 'should raise an argument error when not called from a module' do
+    expect {
+      Object.new.instance_exec do RequireFromHere.install_on{} end
+    }
+    .to raise_error(ArgumentError, 'should be called for Modules only')
+  end
 end
